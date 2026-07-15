@@ -1,0 +1,6 @@
+DOMAIN = "tna_os_canaan"
+CONF_HOST = "host"
+CONF_NAME = "name"
+DEFAULT_NAME = "TNA-OS Miner"
+DEFAULT_SCAN_INTERVAL = 5
+API_TIMEOUT = 10

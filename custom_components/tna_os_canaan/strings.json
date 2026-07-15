@@ -1,0 +1,20 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add TNA-OS Canaan miner",
+        "description": "Enter the LAN IP/hostname of a Canaan miner running TNA-OS-CANAAN.",
+        "data": {
+          "host": "Host/IP",
+          "name": "Name"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the miner API"
+    },
+    "abort": {
+      "already_configured": "This miner is already configured"
+    }
+  }
+}
