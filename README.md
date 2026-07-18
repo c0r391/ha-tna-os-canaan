@@ -1,61 +1,54 @@
 # Home Assistant TNA-OS Canaan
 
-Independent, unofficial Home Assistant integration for Canaan miners running [TNA-OS-CANAAN](https://github.com/CryptoIceMLH/TNA-OS-CANAAN), including **Avalon Nano 3s** and Avalon Q.
+Independent, unofficial Home Assistant integration for Canaan miners running [TNA-OS-CANAAN](https://github.com/CryptoIceMLH/TNA-OS-CANAAN), including **Avalon Nano 3s** and **Avalon Q**.
 
-> Status: alpha. Tested live against a LAN **Avalon Nano 3s** running TNA-OS `0.2.7`.
+> Status: alpha. Tracks the public TNA-OS-CANAAN HTTP API documentation for firmware `0.3.5`.
 >
 > This project is not affiliated with, endorsed by, or maintained by the TNA-OS-CANAAN project unless stated otherwise.
 
 ## Features
 
 - Local polling via the unauthenticated HTTP API (`http://<miner-ip>/api/system/info`)
-- Sensors for hashrate, efficiency, power, temperatures, shares, fan RPM/duty, voltage/current, network mode and pool status
-- Binary sensors for pool connectivity, power telemetry validity and shitcoin detection
+- Sensors for hashrate, efficiency, power, temperatures, fan RPM/duty, voltage/current and share statistics
+- New TNA-OS `0.3.5` telemetry for Avalon Q PSU/string-rail values, fan arrays, chip/board state, Ethernet/WiFi quality and uptime
+- Binary sensors for pool connectivity, power telemetry validity, network link state, PSU mode, board enablement and shitcoin detection
 - Config entities for frequency, core voltage, fan speed, hashboard power and auto-fan
 - Config buttons for reboot and board reset
 - UI config flow: add the miner by LAN IP/hostname
 
-## Live-tested entities
+## Entity coverage
 
-Example entity set from an Avalon Nano 3s named `nano3s`:
+Example entity set from a miner named `nano3s` or `avalon_q`:
 
-| Entity | Purpose |
+| Entity suffix | Purpose |
 |---|---|
-| `sensor.nano3s_hashrate` | Current hashrate in TH/s |
-| `sensor.nano3s_hashrate_1m` | 1-minute hashrate in TH/s |
-| `sensor.nano3s_hashrate_10m` | 10-minute hashrate in TH/s |
-| `sensor.nano3s_hashrate_1h` | 1-hour hashrate in TH/s |
-| `sensor.nano3s_hashrate_1d` | 1-day hashrate in TH/s |
-| `sensor.nano3s_power` | Miner power in W |
-| `sensor.nano3s_hash_efficiency` | API-reported efficiency in GH/W |
-| `sensor.nano3s_efficiency` | Mining efficiency in J/TH |
-| `sensor.nano3s_temperature` | Reported temperature in °C |
-| `sensor.nano3s_chip_max_temperature` | Maximum chip temperature in °C |
-| `sensor.nano3s_fan_rpm` | Live fan tachometer RPM |
-| `sensor.nano3s_fan_duty` | Fan duty in % |
-| `sensor.nano3s_frequency` | ASIC frequency in MHz |
-| `sensor.nano3s_core_voltage` | Core voltage in mV |
-| `sensor.nano3s_input_voltage` | Input voltage in mV |
-| `sensor.nano3s_input_current` | Input current in A |
-| `sensor.nano3s_shares_accepted` | Accepted shares |
-| `sensor.nano3s_shares_rejected` | Rejected shares |
-| `sensor.nano3s_shares_submitted` | Submitted shares |
-| `sensor.nano3s_best_session_difficulty` | Best session difficulty |
-| `sensor.nano3s_pool_difficulty` | Current/active pool difficulty |
-| `sensor.nano3s_network_mode` | Active network mode |
-| `sensor.nano3s_wifi_rssi` | WiFi signal strength in dBm |
-| `sensor.nano3s_pool_mode` | Failover or multipool mode |
-| `sensor.nano3s_active_pool_status` | Active pool status |
-| `sensor.nano3s_active_pool_protocol` | Active pool protocol, e.g. v1/v2 |
-| `sensor.nano3s_active_pool_effective_quota` | Active pool effective quota |
-| `binary_sensor.nano3s_pool_connected` | Pool connectivity |
-| `switch.nano3s_hashboard_power` | Hashboard on/off |
-| `switch.nano3s_auto_fan` | Auto fan on/off |
-| `number.nano3s_fan_speed` | Manual fan duty |
-| `number.nano3s_frequency` | Frequency setting |
-| `number.nano3s_core_voltage` | Core voltage setting |
-| `button.nano3s_reboot` | Reboot miner control board |
-| `button.nano3s_board_reset` | Reset board 0 |
+| `hashrate`, `hashrate_1m`, `hashrate_10m`, `hashrate_1h`, `hashrate_1d` | Hashrate in TH/s |
+| `power`, `max_power`, `hash_efficiency`, `efficiency` | Power and efficiency telemetry |
+| `shares_accepted`, `shares_rejected`, `shares_submitted` | Share counters |
+| `best_difficulty`, `best_session_difficulty`, `pool_difficulty` | Difficulty telemetry |
+| `temperature`, `vr_temperature`, `board_probe_temperature`, `overheat_threshold` | Board/VR thermal telemetry |
+| `chip_max_temperature`, `chip_average_temperature`, `responding_chips`, `chip_share_attribution` | Per-board/per-chip summary |
+| `fan_rpm`, `fan_rpms`, `fan_duty` | Single-fan and Avalon Q multi-fan telemetry |
+| `frequency`, `target_frequency` | Current/target ASIC frequency |
+| `core_voltage_setpoint`, `core_voltage_actual` | ASIC Vcore setpoint and live readback |
+| `input_voltage`, `input_current`, `psu_negotiated_voltage` | Nano 3s USB-C PD telemetry |
+| `psu_string_voltage_setpoint`, `psu_string_voltage_actual`, `psu_output_current`, `psu_output_power` | Avalon Q PSU/string-rail telemetry |
+| `network_mode`, `wifi_signal`, `wifi_link_quality`, `wifi_rssi`, `wifi_status`, `wifi_ssid` | Network telemetry |
+| `ethernet_rx`, `ethernet_tx`, `ethernet_rx_total`, `ethernet_tx_total`, `ethernet_ipv4` | Ethernet counters |
+| `pool_mode`, `active_pool_status`, `active_pool_protocol`, `active_pool_effective_quota` | Pool status |
+| `board_state`, `runtime_state`, `thermal_zone`, `fault_reason` | Board health state |
+| `miner_uptime`, `system_uptime`, `asic_count`, `core_count` | Identity/runtime counters |
+| `binary_sensor.*_pool_connected` | Pool connectivity |
+| `binary_sensor.*_power_telemetry_valid` | Power readings are valid |
+| `binary_sensor.*_shitcoin_detected` | Non-Bitcoin SHA-256 pool work detected by firmware |
+| `binary_sensor.*_ethernet_*`, `binary_sensor.*_wifi_setup_ap_active` | Network state |
+| `binary_sensor.*_usb_c_pd_active`, `binary_sensor.*_psu_bypass` | PSU mode state |
+| `switch.*_hashboard_power` | Hashboard on/off |
+| `switch.*_auto_fan` | Auto fan on/off |
+| `number.*_fan_speed`, `number.*_frequency`, `number.*_core_voltage` | Persistent miner configuration values |
+| `button.*_reboot`, `button.*_board_reset` | Restart/reset controls |
+
+Fields that do not apply to the connected board appear as unavailable/empty. For example, Avalon Q exposes string-rail PSU values and `fanRpms`; Nano 3s exposes USB-C PD/input values.
 
 ## Security warning
 
@@ -94,16 +87,8 @@ Add through the UI. Use only the host/IP, for example:
 ## Known limitations
 
 - Pool editing is not exposed yet. TNA-OS requires sending the full pool list, so accidental UI edits could lock a miner out of its pool.
-- Advanced TNA-OS 0.2.7 controls such as presets, thermal PID, LED/OLED, BDOC and immersion settings are intentionally not exposed yet because they are persistent and safety-sensitive.
+- Advanced controls such as presets, thermal PID/threshold tuning, LED/OLED, BDOC, immersion settings, PSU bypass and WiFi credential writes are intentionally not exposed because they are persistent and safety-sensitive.
 - The HTTP API has no authentication. Network isolation is expected.
-
-## Support this project
-
-If this integration is useful for your miner dashboard or automation setup, BTC support is appreciated and helps keep the project maintained.
-
-```text
-bc1qqe5l9e36h49wm9kkjrek7v746gej3s3j2hrkgd
-```
 
 ## Credits
 

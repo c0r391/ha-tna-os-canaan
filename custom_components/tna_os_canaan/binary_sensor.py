@@ -18,10 +18,38 @@ class TnaBinaryDescription(BinarySensorEntityDescription):
     value_fn: Callable[[dict[str, Any]], bool]
 
 
+def active_pools(data: dict[str, Any]) -> list[dict[str, Any]]:
+    return (data.get("stratum") or {}).get("pools") or []
+
+
+def board(data: dict[str, Any]) -> dict[str, Any]:
+    boards = data.get("boards") or []
+    return boards[0] if boards else {}
+
+
+def truthy(data: dict[str, Any], key: str) -> bool:
+    value = data.get(key)
+    return bool(value) and value not in ("0", "false", "False")
+
+
 BINARY_SENSORS = (
-    TnaBinaryDescription(key="pool_connected", name="Pool connected", device_class=BinarySensorDeviceClass.CONNECTIVITY, value_fn=lambda d: any(p.get("connected") or p.get("status") == "alive" for p in (d.get("stratum") or {}).get("pools", []))),
+    TnaBinaryDescription(
+        key="pool_connected",
+        name="Pool connected",
+        device_class=BinarySensorDeviceClass.CONNECTIVITY,
+        value_fn=lambda d: any(p.get("connected") or p.get("status") == "alive" for p in active_pools(d)),
+    ),
     TnaBinaryDescription(key="power_valid", name="Power telemetry valid", value_fn=lambda d: bool(d.get("powerValid", False))),
     TnaBinaryDescription(key="shitcoin_detected", name="Shitcoin detected", device_class=BinarySensorDeviceClass.PROBLEM, value_fn=lambda d: bool(d.get("shitcoinDetected", False))),
+    TnaBinaryDescription(key="eth_available", name="Ethernet available", device_class=BinarySensorDeviceClass.CONNECTIVITY, value_fn=lambda d: truthy(d, "ethAvailable")),
+    TnaBinaryDescription(key="eth_link_up", name="Ethernet link up", device_class=BinarySensorDeviceClass.CONNECTIVITY, value_fn=lambda d: truthy(d, "ethLinkUp")),
+    TnaBinaryDescription(key="eth_connected", name="Ethernet connected", device_class=BinarySensorDeviceClass.CONNECTIVITY, value_fn=lambda d: truthy(d, "ethConnected")),
+    TnaBinaryDescription(key="wifi_ap_mode", name="WiFi setup AP active", device_class=BinarySensorDeviceClass.CONNECTIVITY, value_fn=lambda d: bool(d.get("apMode", False))),
+    TnaBinaryDescription(key="auto_fan_enabled", name="Auto fan enabled", value_fn=lambda d: bool(d.get("autofanspeed"))),
+    TnaBinaryDescription(key="auto_power_on", name="Auto power on", value_fn=lambda d: bool(d.get("autoPowerOn", False))),
+    TnaBinaryDescription(key="psu_pd_active", name="USB-C PD active", value_fn=lambda d: bool(d.get("psuPdActive", False))),
+    TnaBinaryDescription(key="psu_bypass", name="PSU bypass", value_fn=lambda d: bool(d.get("psuBypass", False))),
+    TnaBinaryDescription(key="board_enabled", name="Board enabled", value_fn=lambda d: bool(board(d).get("enabled", False))),
 )
 
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.0 - 2026-07-18
+
+- Update integration against the TNA-OS-CANAAN `0.3.5` API documentation.
+- Add Avalon Q PSU/string-rail telemetry sensors (`psuVoutV`, `psuVoutActualV`, `psuIoutA`, `psuPoutW`) while keeping Nano 3s USB-C PD values.
+- Add live Vcore readback (`coreVoltageActual`), max power, negotiated PSU voltage and bypass voltage telemetry.
+- Add expanded thermal sensors for VR/board probe/overheat threshold, chip average temperature and board/chip health summary.
+- Add Avalon Q multi-fan RPM string sensor and keep `fanRpm` as the headline live tachometer.
+- Add Ethernet throughput/counter sensors, WiFi signal/link-quality sensors, setup-AP fields, uptime and identity counters.
+- Add binary sensors for Ethernet link/connectivity, setup AP, auto power-on, USB-C PD active, PSU bypass and board enabled state.
+- Document TNA-OS `0.3.5` limitations and keep pools, presets, thermal thresholds, WiFi credential writes, BDOC, immersion and PSU-bypass controls intentionally unexposed.
+
 ## 0.2.0 - 2026-07-15
 
 - Update integration against the TNA-OS-CANAAN `0.2.7` API documentation.
