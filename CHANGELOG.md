@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 - 2026-07-18
+
+- Restore the previous README/info style and BTC support section.
+- Keep the TNA-OS `0.3.5` entity additions documented in the existing entity-table schema.
+
 ## 0.3.0 - 2026-07-18
 
 - Update integration against the TNA-OS-CANAAN `0.3.5` API documentation.
