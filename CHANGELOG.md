@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2 - 2026-07-19
+
+- Fix core-voltage units for Avalon Q in Home Assistant controls.
+- Display core-voltage telemetry in volts and normalize Nano-style mV values for HA.
+- Keep Nano writes compatible by converting V back to mV, while Avalon Q volt-range writes stay in V.
+
 ## 0.3.1 - 2026-07-18
 
 - Restore the previous README/info style and BTC support section.

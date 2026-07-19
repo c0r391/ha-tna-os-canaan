@@ -34,8 +34,8 @@ Example entity set from an Avalon Nano 3s named `nano3s`:
 | `sensor.nano3s_fan_rpm` | Live fan tachometer RPM |
 | `sensor.nano3s_fan_duty` | Fan duty in % |
 | `sensor.nano3s_frequency` | ASIC frequency in MHz |
-| `sensor.nano3s_core_voltage` | Core voltage in mV |
-| `sensor.nano3s_input_voltage` | Input voltage in mV |
+| `sensor.nano3s_core_voltage` | Core voltage in V; mV firmware values are normalized for HA |
+| `sensor.nano3s_input_voltage` | Input voltage in V; mV firmware values are normalized for HA |
 | `sensor.nano3s_input_current` | Input current in A |
 | `sensor.nano3s_shares_accepted` | Accepted shares |
 | `sensor.nano3s_shares_rejected` | Rejected shares |
@@ -49,7 +49,7 @@ Example entity set from an Avalon Nano 3s named `nano3s`:
 | `sensor.nano3s_active_pool_protocol` | Active pool protocol, e.g. v1/v2 |
 | `sensor.nano3s_active_pool_effective_quota` | Active pool effective quota |
 | `sensor.nano3s_max_power` | API-reported maximum board power in W |
-| `sensor.nano3s_core_voltage_actual` | Live Vcore readback in mV |
+| `sensor.nano3s_core_voltage_actual` | Live Vcore readback in V; mV firmware values are normalized for HA |
 | `sensor.nano3s_vr_temperature` | VR / board temperature alias in °C |
 | `sensor.nano3s_board_probe_temperature` | Raw board probe temperature in °C |
 | `sensor.nano3s_overheat_threshold` | Active overheat threshold in °C |
@@ -83,7 +83,7 @@ Example entity set from an Avalon Nano 3s named `nano3s`:
 | `switch.nano3s_auto_fan` | Auto fan on/off |
 | `number.nano3s_fan_speed` | Manual fan duty |
 | `number.nano3s_frequency` | Frequency setting |
-| `number.nano3s_core_voltage` | Core voltage setting |
+| `number.nano3s_core_voltage` | Core voltage setting in V; Nano-style writes are converted back to mV, Avalon Q volt values stay in V |
 | `button.nano3s_reboot` | Reboot miner control board |
 | `button.nano3s_board_reset` | Reset board 0 |
 
