@@ -2,14 +2,14 @@
 
 Independent, unofficial Home Assistant integration for Canaan miners running [TNA-OS-CANAAN](https://github.com/CryptoIceMLH/TNA-OS-CANAAN), including **Avalon Nano 3s** and Avalon Q.
 
-> Status: alpha. Tested live against a LAN **Avalon Nano 3s** running TNA-OS `0.2.7`; updated against the public TNA-OS-CANAAN `0.3.5` API documentation.
+> Status: alpha. Tested live against a LAN **Avalon Nano 3s** running TNA-OS `0.2.7`; updated against the public TNA-OS-CANAAN `0.3.15` API documentation.
 >
 > This project is not affiliated with, endorsed by, or maintained by the TNA-OS-CANAAN project unless stated otherwise.
 
 ## Features
 
 - Local polling via the unauthenticated HTTP API (`http://<miner-ip>/api/system/info`)
-- Sensors for hashrate, efficiency, power, temperatures, shares, fan RPM/duty, voltage/current, network mode, pool status and TNA-OS `0.3.5` telemetry
+- Sensors for hashrate, efficiency, power, temperatures, shares, fan RPM/duty, voltage/current, network mode, pool status and TNA-OS `0.3.15` telemetry
 - Binary sensors for pool connectivity, power telemetry validity, network/PSU/board state and shitcoin detection
 - Config entities for frequency, core voltage, fan speed, hashboard power and auto-fan
 - Config buttons for reboot and board reset
@@ -83,8 +83,7 @@ Example entity set from an Avalon Nano 3s named `nano3s`:
 | `switch.nano3s_auto_fan` | Auto fan on/off |
 | `number.nano3s_fan_speed` | Manual fan duty |
 | `number.nano3s_frequency` | Frequency setting |
-| `number.nano3s_core_voltage` | Core voltage setting in mV |
-| `number.nano3s_psu_string_voltage` | Avalon Q PSU string-rail voltage setting in V, written as `stringVoltage` |
+| `number.nano3s_core_voltage` | Core voltage setting: Nano 3s in mV; Avalon Q in V |
 | `button.nano3s_reboot` | Reboot miner control board |
 | `button.nano3s_board_reset` | Reset board 0 |
 
@@ -125,7 +124,7 @@ Add through the UI. Use only the host/IP, for example:
 ## Known limitations
 
 - Pool editing is not exposed yet. TNA-OS requires sending the full pool list, so accidental UI edits could lock a miner out of its pool.
-- Advanced TNA-OS `0.3.5` controls such as pool editing, presets, thermal PID/thresholds, LED/OLED, BDOC, immersion settings, PSU bypass and WiFi credential writes are intentionally not exposed yet because they are persistent and safety-sensitive.
+- Advanced TNA-OS `0.3.15` controls such as pool editing, presets, thermal PID/thresholds, LED/OLED, BDOC, immersion settings, PSU bypass and WiFi credential writes are intentionally not exposed yet because they are persistent and safety-sensitive.
 - The HTTP API has no authentication. Network isolation is expected.
 
 ## Support this project

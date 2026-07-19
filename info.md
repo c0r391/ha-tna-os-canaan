@@ -2,7 +2,7 @@
 
 Independent Home Assistant custom integration for Canaan miners running TNA-OS-CANAAN, including Avalon Nano 3s and Avalon Q.
 
-This release tracks the TNA-OS-CANAAN 0.3.5 API and exposes additional PSU, network, fan, board/chip and runtime telemetry while keeping the existing Home Assistant surface and documentation style.
+This release tracks the TNA-OS-CANAAN 0.3.15 API and exposes additional PSU, network, fan, board/chip and runtime telemetry while keeping the existing Home Assistant surface and documentation style.
 
 If this integration is useful, BTC support is appreciated:
 

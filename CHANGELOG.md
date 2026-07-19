@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.5 - 2026-07-19
+
+- Add model-aware voltage control so Nano 3s keeps API-defined `coreVoltage` writes in mV while Avalon Q writes the firmware-compatible `coreVoltage` value in V.
+- Remove the writable Avalon Q PSU string-voltage number because current firmware returns `ok` for `stringVoltage`/`psuVoutV` writes without applying them.
+- Keep Avalon Q `psuVoutV` and `psuVoutActualV` as read-only sensors.
+- Continue verifying core-voltage writes by re-reading API state after `PATCH` and logging a warning when readback does not match.
+- Update public wording to track the TNA-OS-CANAAN `0.3.15` API documentation.
+
 ## 0.3.4 - 2026-07-19
 
 - Keep Avalon Q PSU string-rail writes API-strict by continuing to send `stringVoltage` only.

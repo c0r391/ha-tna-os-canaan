@@ -118,7 +118,7 @@ SENSORS: tuple[TnaSensorDescription, ...] = (
     TnaSensorDescription(key="bestSessionDiff", name="Best session difficulty", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("bestSessionDiff")),
     TnaSensorDescription(key="poolDifficulty", name="Pool difficulty", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("poolDifficulty") or active_pool(d).get("poolDifficulty")),
 
-    # Temperatures and fan telemetry. v0.3.5 adds board/VR aliases and Avalon Q fanRpms.
+    # Temperatures and fan telemetry. API v0.3.x adds board/VR aliases and Avalon Q fanRpms.
     TnaSensorDescription(key="temp", name="Temperature", device_class=SensorDeviceClass.TEMPERATURE, native_unit_of_measurement=UnitOfTemperature.CELSIUS, state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("temp")),
     TnaSensorDescription(key="vr_temp", name="VR temperature", device_class=SensorDeviceClass.TEMPERATURE, native_unit_of_measurement=UnitOfTemperature.CELSIUS, state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: first_present(d, "vrTemp", "boardtemp1", "boardtemp2")),
     TnaSensorDescription(key="board_probe_temp", name="Board probe temperature", device_class=SensorDeviceClass.TEMPERATURE, native_unit_of_measurement=UnitOfTemperature.CELSIUS, state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("boardProbeTemp")),
