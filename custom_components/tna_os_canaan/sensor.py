@@ -23,22 +23,6 @@ def gh_to_th(value: Any) -> Any:
     return round(float(value) / 1000, 3) if value is not None else None
 
 
-def voltage_to_v(value: Any) -> Any:
-    """Normalize TNA voltage telemetry to volts for Home Assistant display.
-
-    Nano 3s reports ASIC core voltage in millivolts, for example 3650. Avalon Q
-    exposes its relevant voltage in volts, for example 26.0. HA should display
-    both as V to avoid mV/V validation mistakes in the UI.
-    """
-    if value is None:
-        return None
-    try:
-        numeric = float(value)
-    except (TypeError, ValueError):
-        return None
-    return numeric if abs(numeric) < 100 else round(numeric / 1000, 3)
-
-
 def j_per_th(data: dict[str, Any]) -> Any:
     power = data.get("power")
     hashrate = data.get("hashRate_10m") or data.get("hashRate")
@@ -148,9 +132,9 @@ SENSORS: tuple[TnaSensorDescription, ...] = (
     # Frequency and voltage/power rails. Covers Nano 3s USB-C PD and Avalon Q string-rail fields.
     TnaSensorDescription(key="frequency", name="Frequency", native_unit_of_measurement="MHz", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("frequency") or d.get("defaultFrequency")),
     TnaSensorDescription(key="defaultFrequency", name="Target frequency", native_unit_of_measurement="MHz", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("defaultFrequency")),
-    TnaSensorDescription(key="coreVoltage", name="Core voltage setpoint", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="V", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: voltage_to_v(d.get("coreVoltage"))),
-    TnaSensorDescription(key="coreVoltageActual", name="Core voltage actual", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="V", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: voltage_to_v(d.get("coreVoltageActual"))),
-    TnaSensorDescription(key="voltage", name="Input voltage", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="V", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: voltage_to_v(d.get("voltage"))),
+    TnaSensorDescription(key="coreVoltage", name="Core voltage setpoint", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="mV", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("coreVoltage")),
+    TnaSensorDescription(key="coreVoltageActual", name="Core voltage actual", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="mV", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("coreVoltageActual")),
+    TnaSensorDescription(key="voltage", name="Input voltage", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="mV", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("voltage")),
     TnaSensorDescription(key="current", name="Input current", device_class=SensorDeviceClass.CURRENT, native_unit_of_measurement=UnitOfElectricCurrent.AMPERE, state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("current")),
     TnaSensorDescription(key="psu_voltage", name="PSU negotiated voltage", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="V", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: first_present(d, "vcoreV", "psuVoltageV")),
     TnaSensorDescription(key="psuVoutV", name="PSU string voltage setpoint", device_class=SensorDeviceClass.VOLTAGE, native_unit_of_measurement="V", state_class=SensorStateClass.MEASUREMENT, value_fn=lambda d: d.get("psuVoutV")),

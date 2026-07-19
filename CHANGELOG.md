@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3 - 2026-07-19
+
+- Restore `coreVoltage`, `coreVoltageActual` and input `voltage` to the API-defined mV units.
+- Add Avalon Q `number.*_psu_string_voltage` for the `psuVoutV` string-rail setpoint in V, written via `stringVoltage`.
+- Keep Avalon Q measured `psuVoutActualV` as a sensor-only readback.
+
 ## 0.3.2 - 2026-07-19
 
 - Fix core-voltage units for Avalon Q in Home Assistant controls.
