@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.4 - 2026-07-19
+
+- Keep Avalon Q PSU string-rail writes API-strict by continuing to send `stringVoltage` only.
+- Verify `stringVoltage` writes by re-reading `psuVoutV` after refresh.
+- Log a Home Assistant warning when TNA-OS does not apply the requested string-rail voltage, keeping HA state at the API readback value.
+
 ## 0.3.3 - 2026-07-19
 
 - Restore `coreVoltage`, `coreVoltageActual` and input `voltage` to the API-defined mV units.
